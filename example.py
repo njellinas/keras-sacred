@@ -22,10 +22,10 @@ def dnn_config():
 @ex.automain
 def dnn_main(input_dim, output_dim, neurons, activation, dropout, _run):  # Include _run in input for tracking metrics
     # Dummy data
-    x_train = np.random.randn(1000, 100)
-    y_train = np.random.randn(1000, 20)
-    x_valid = np.random.randn(1000, 100)
-    y_valid = np.random.randn(1000, 20)
+    x_train = np.random.randn(1000, input_dim)
+    y_train = np.random.randn(1000, output_dim)
+    x_valid = np.random.randn(1000, input_dim)
+    y_valid = np.random.randn(1000, output_dim)
 
     # Model architecture
     # Input layer
