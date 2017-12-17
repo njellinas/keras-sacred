@@ -15,7 +15,7 @@ ex.observers.append(MongoObserver.create(url=my_url,
 def dnn_config():
     input_dim = 100
     output_dim = 20
-    neurons = 300
+    neurons = 64
     activation = 'relu'
     dropout = 0.4
 
@@ -28,12 +28,17 @@ def dnn_main(input_dim, output_dim, neurons, activation, dropout, _run):  # Incl
     y_valid = np.random.randn(1000, 20)
 
     # Model architecture
+    # Input layer
     model = Sequential()
     model.add(InputLayer(batch_input_shape=(None, input_dim), name='input'))
+    # Hidden layer
     model.add(Dense(units=neurons, name='hidden'))
     model.add(BatchNormalization())
     model.add(Activation(activation=activation))
     model.add(Dropout(rate=dropout))
+    # Output layer
+    model.add(Dense(units=output_dim, name='output'))
+    model.add(BatchNormalization())
 
     # Compile model
     model.compile(optimizer='Adam',
@@ -41,6 +46,8 @@ def dnn_main(input_dim, output_dim, neurons, activation, dropout, _run):  # Incl
 
     # Training and validation
     history = model.fit(x=x_train, y=y_train,
+                        batch_size=64,
+                        epochs=100,
                         verbose=2,
                         validation_data=(x_valid, y_valid))
 
